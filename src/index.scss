@@ -82,7 +82,7 @@ p {
 }
 
 .chat-panel {
-  min-height: calc(100vh - 78px);
+  min-height: calc(100vh - 78px - 37px);
   border-radius: 5px;
   overflow-y: auto;
 }
@@ -192,4 +192,10 @@ p {
 
 .App {
   background: $dark-grey;
+}
+
+.chat-information {
+  text-align: center;
+  font-size: calc(14 / 16 * 1rem);
+  padding: 10px 0;
 }

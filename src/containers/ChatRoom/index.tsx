@@ -1,11 +1,11 @@
 import React, { PureComponent, ChangeEvent, MouseEvent } from "react";
-import axios from "axios";
 import Modal from "../../components/Modal";
 import ChatBox from "../../components/ChatBox";
 import GuestForm from "../../components/GuestForm";
 import ChatPanel from "../../components/ChatPanel";
-import { database, reqHeader } from "../../Firebase";
+import { database } from "../../Firebase";
 import { IMessage } from "../../interfaces";
+import { sendChat } from "../../helpers";
 
 interface IChatRoomState {
   isModalOpen: boolean;
@@ -98,27 +98,16 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
     const { message, username } = this.state;
     if (message.trim().length !== 0) {
       database.ref("messages").push({ text: message, user: username });
-      let cat = localStorage.getItem("fcmtoken");
-
-      axios
-        .post(
-          "https://fcm.googleapis.com/fcm/send",
-          {
-            to: "/topics/messages",
-            data: {
-              title: username,
-              body: message,
-              sendertoken: cat
-            }
-          },
-          { headers: reqHeader }
-        )
+      let fcmToken = localStorage.getItem("fcmtoken");
+      sendChat(username, message, fcmToken as string)
         .then(_ => {
           this.setState({
             message: ""
           });
         })
-        .catch(_ => {});
+        .catch(error => {
+          console.log("Send Chat: ", error);
+        });
     }
   };
 
@@ -126,6 +115,9 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
     const { isModalOpen, username, messages, message } = this.state;
     return (
       <div className="container">
+        {!isModalOpen && username && (
+          <div className="chat-information">Logged in as {username}</div>
+        )}
         <ChatPanel messages={messages} username={username} />
         <ChatBox
           handleChangeMessage={this.handleChangeMessage}
