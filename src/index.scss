@@ -1,13 +1,173 @@
+$dark-grey: #a7a7a7;
+$light-grey: #e7e7e7;
+$blue: #0084ff;
+$white: #fff;
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: 0;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+  max-width: 600px;
+  background: $white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.button {
+  border: 0;
+  background: $blue;
+  color: $white;
+  padding: 0 15px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.chat-box {
+  display: flex;
+  padding: 20px 0;
+
+  .chat-box__button {
+    display: inline-flex;
+  }
+
+  .chat-box__textarea {
+    width: 100%;
+    margin-right: 10px;
+    display: inline-flex;
+
+    textarea {
+      width: 100%;
+      resize: none;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid $dark-grey;
+      height: 38px;
+    }
+  }
+}
+
+.chat-panel {
+  min-height: calc(100vh - 78px);
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.chat-bubble {
+  padding: 10px;
+  border-bottom: 1px solid $light-grey;
+  font-size: 14px;
+
+  &__message {
+    padding-left: 10px;
+    margin-top: 10px;
+  }
+
+  &__name {
+    font-weight: 700;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    width: 100%;
+    max-width: 500px;
+    background: $white;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  &__title {
+    padding: 10px 20px;
+    border-bottom: 1px solid $light-grey;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+  }
+
+  &__body {
+    padding: 20px 20px 40px;
+  }
+}
+
+.guest-form__label {
+  display: block;
+  font-weight: 500;
+}
+
+.guest-form__input {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  height: 38px;
+  border-radius: 20px;
+  border: 1px solid $dark-grey;
+}
+
+.guest-form__button {
+  display: block;
+  margin: 10px auto 0;
+  border: 0;
+  background: $blue;
+  color: $white;
+  padding: 0 15px;
+  cursor: pointer;
+  height: 36px;
+  width: 100%;
+  max-width: 100px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.App {
+  background: $dark-grey;
 }
