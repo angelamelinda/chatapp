@@ -1,8 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, ChangeEvent, MouseEvent } from "react";
 
-interface IGuestForm {}
+interface IGuestForm {
+  change: (e: ChangeEvent<HTMLInputElement>) => void;
+  username: string;
+  handleLogin: (e: MouseEvent<HTMLButtonElement>) => void;
+}
 
-const GuestForm: FC<IGuestForm> = () => {
+const GuestForm: FC<IGuestForm> = ({ change, username, handleLogin }) => {
   return (
     <div id="guest-form">
       <div className="guest-form__field">
@@ -11,9 +15,14 @@ const GuestForm: FC<IGuestForm> = () => {
           id="guest-form__username"
           className="guest-form__input"
           type="text"
+          onChange={change}
+          value={username}
         />
       </div>
-      <button className="guest-form__button" id="guest-form__button-login">
+      <button
+        className="guest-form__button"
+        id="guest-form__button-login"
+        onClick={handleLogin}>
         Login
       </button>
     </div>
