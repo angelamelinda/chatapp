@@ -96,28 +96,30 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
   handleSendMessage = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { message, username } = this.state;
-    database.ref("messages").push({ text: message, user: username });
-    let cat = localStorage.getItem("fcmtoken");
+    if (message.trim().length !== 0) {
+      database.ref("messages").push({ text: message, user: username });
+      let cat = localStorage.getItem("fcmtoken");
 
-    axios
-      .post(
-        "https://fcm.googleapis.com/fcm/send",
-        {
-          to: "/topics/messages",
-          data: {
-            title: username,
-            body: message,
-            sendertoken: cat
-          }
-        },
-        { headers: reqHeader }
-      )
-      .then(_ => {
-        this.setState({
-          message: ""
-        });
-      })
-      .catch(_ => {});
+      axios
+        .post(
+          "https://fcm.googleapis.com/fcm/send",
+          {
+            to: "/topics/messages",
+            data: {
+              title: username,
+              body: message,
+              sendertoken: cat
+            }
+          },
+          { headers: reqHeader }
+        )
+        .then(_ => {
+          this.setState({
+            message: ""
+          });
+        })
+        .catch(_ => {});
+    }
   };
 
   render() {
