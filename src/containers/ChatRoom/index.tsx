@@ -112,12 +112,12 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
         },
         { headers: reqHeader }
       )
-      .then(_ => {})
+      .then(_ => {
+        this.setState({
+          message: ""
+        });
+      })
       .catch(_ => {});
-
-    this.setState({
-      message: ""
-    });
   };
 
   render() {
