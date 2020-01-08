@@ -7,6 +7,7 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload) {
+  console.log("Background Listener", payload);
   if (!payload.data || !payload.data.sendertoken) {
     return;
   }

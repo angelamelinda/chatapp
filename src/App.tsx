@@ -17,6 +17,7 @@ class App extends PureComponent {
       });
 
     navigator.serviceWorker.addEventListener("message", message => {
+      console.log("Foreground Listener");
       try {
         const storageFCMToken = localStorage.getItem("fcmtoken");
         const messageData = message.data["firebase-messaging-msg-data"].data;
