@@ -6,6 +6,7 @@ import ChatPanel from "../../components/ChatPanel";
 import { database } from "../../Firebase";
 import { IMessage } from "../../interfaces";
 import { sendChat } from "../../helpers";
+import Toast from "../../components/Toast";
 
 interface IChatRoomState {
   isModalOpen: boolean;
@@ -13,6 +14,7 @@ interface IChatRoomState {
   users: any[];
   messages: any[];
   message: string;
+  toast: null | string;
 }
 
 interface IChatRoomProps {}
@@ -27,7 +29,8 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
       username: this.usernameStorage ? this.usernameStorage : "",
       users: [],
       messages: [],
-      message: ""
+      message: "",
+      toast: null
     };
   }
 
@@ -88,9 +91,14 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
     database.ref("users").push({ username: username });
     localStorage.setItem("chat_username", username);
 
-    this.setState({
-      isModalOpen: false
-    });
+    this.setState(
+      {
+        isModalOpen: false
+      },
+      () => {
+        this.handleSetToast("Successfully Login");
+      }
+    );
   };
 
   handleSendMessage = (e: MouseEvent<HTMLButtonElement>) => {
@@ -111,14 +119,33 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
     }
   };
 
+  handleSetToast = (message: string) => {
+    this.setState(
+      {
+        toast: message
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            toast: null
+          });
+        }, 2000);
+      }
+    );
+  };
+
   render() {
-    const { isModalOpen, username, messages, message } = this.state;
+    const { isModalOpen, username, messages, message, toast } = this.state;
     return (
       <div className="container">
         {!isModalOpen && username && (
           <div className="chat-information">Logged in as {username}</div>
         )}
-        <ChatPanel messages={messages} username={username} />
+        <ChatPanel
+          messages={messages}
+          username={username}
+          isModalOpen={isModalOpen}
+        />
         <ChatBox
           handleChangeMessage={this.handleChangeMessage}
           handleSendMessage={this.handleSendMessage}
@@ -135,6 +162,7 @@ class ChatRoom extends PureComponent<IChatRoomProps, IChatRoomState> {
             }
           </Modal>
         )}
+        {toast && <Toast message={toast} />}
       </div>
     );
   }

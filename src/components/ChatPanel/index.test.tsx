@@ -5,6 +5,7 @@ import ChatPanel from ".";
 test(`should render ChatPanel with chat-bubble--right in the innerHTML`, () => {
   const { container } = render(
     <ChatPanel
+      isModalOpen={false}
       username="Angela"
       messages={[{ user: "Angela", key: "1", text: "Hello World" }]}
     />
@@ -15,6 +16,7 @@ test(`should render ChatPanel with chat-bubble--right in the innerHTML`, () => {
 test(`should render ChatPanel with chat-bubble--left in the innerHTML`, () => {
   const { container } = render(
     <ChatPanel
+      isModalOpen={false}
       username="Melinda"
       messages={[{ user: "Angela", key: "1", text: "Hello World" }]}
     />
